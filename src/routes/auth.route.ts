@@ -4,8 +4,7 @@ import { authenticateJWT } from '../middleware/auth.middleware';
 
 const router = Router();
 
-router.post('/signup', signup);
-
+router.post('/signup', signup); // This will now have type checking
 router.get('/protected', authenticateJWT, (req, res) => {
   res.json({ message: 'This is a protected route', user: req.user });
 });

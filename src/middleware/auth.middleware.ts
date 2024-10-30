@@ -1,20 +1,17 @@
 import { Request, Response, NextFunction } from 'express';
-import jwt from 'jsonwebtoken';
+import { verifyToken } from '../service/auth.service';
 
-export const authenticateJWT = (req: Request, res: Response, next: NextFunction) => {
-  const authHeader = req.headers.authorization;
+export const authenticateJWT = (req: Request, res: Response, next: NextFunction): void => {
+  const token = req.cookies.jwt;
 
-  if (authHeader) {
-    const token = authHeader.split(' ')[1];
-
-    jwt.verify(token, process.env.JWT_SECRET as string, (err, user) => {
-      if (err) {
-        return res.sendStatus(403); // Invalid token
-      }
-
+  if (token) {
+    try {
+      const user = verifyToken(token);
       req.user = user;
       next();
-    });
+    } catch (err) {
+      res.sendStatus(403); // Invalid token
+    }
   } else {
     res.sendStatus(401); // No token provided
   }

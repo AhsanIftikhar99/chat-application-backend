@@ -15,7 +15,7 @@ interface UserAttributes {
 }
 
 // Define the creation attributes for the User model
-interface UserCreationAttributes extends Optional<UserAttributes, 'id' | 'displayName' | 'profilePicture' | 'status' | 'createdAt' | 'updatedAt'> {}
+interface UserCreationAttributes extends Optional<UserAttributes, 'id' | 'displayName' | 'profilePicture' | 'status' | 'createdAt' | 'updatedAt'> { }
 
 // Extend the Model class with the attributes
 class User extends Model<UserAttributes, UserCreationAttributes> implements UserAttributes {
@@ -29,6 +29,7 @@ class User extends Model<UserAttributes, UserCreationAttributes> implements User
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 }
+
 
 User.init(
   {
@@ -61,6 +62,11 @@ User.init(
     sequelize,
     modelName: 'User',
     timestamps: true,
+    freezeTableName: true,
+
+    // define the table's name
+    tableName: 'User',
+
   }
 );
 

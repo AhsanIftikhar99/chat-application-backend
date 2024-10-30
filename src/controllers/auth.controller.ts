@@ -1,8 +1,8 @@
-import { Request, Response } from 'express';
+import { Request, Response, RequestHandler } from 'express';
 import User from '../models/user.model';
 import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
 import { z } from 'zod';
+import { generateToken } from '../service/auth.service';
 
 const signupSchema = z.object({
   username: z.string().min(3, 'Username must be at least 3 characters'),
@@ -11,13 +11,16 @@ const signupSchema = z.object({
   displayName: z.string().optional(),
 });
 
-export const signup = async (req: Request, res: Response): Promise<Response> => {
+export const signup: RequestHandler = async (req: Request, res: Response): Promise<void> => {
   try {
     const { username, email, password, displayName } = signupSchema.parse(req.body);
 
+
+    console.log(req.body);
     const existingUser = await User.findOne({ where: { email } });
     if (existingUser) {
-      return res.status(400).json({ message: 'User already exists with this email' });
+      res.status(400).json({ message: 'User already exists with this email' });
+      return;
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -27,18 +30,19 @@ export const signup = async (req: Request, res: Response): Promise<Response> => 
       displayName,
       password: hashedPassword,
     });
+    console.log(user);
+    const token = generateToken(user.id, user.email);
 
-    const token = jwt.sign(
-      { user_id: user.id, email: user.email },
-      process.env.JWT_SECRET as string,
-      { expiresIn: process.env.JWT_EXPIRES_IN }
-    );
+    // Set the token in a cookie
+    res.cookie('jwt', token, { httpOnly: true, secure: process.env.NODE_ENV === 'production' });
 
-    return res.status(201).json({ message: 'User created successfully', token });
-  } catch (error) {
+    res.status(201).json({ message: 'User created successfully' });
+  } catch (error:any) {
     if (error instanceof z.ZodError) {
-      return res.status(400).json({ message: error.errors });
+      res.status(400).json({ message: error.errors });
+    } else {
+      console.error(error);
+      res.status(500).json({ message: 'Internal server error' });
     }
-    return res.status(500).json({ message: 'Internal server error' });
   }
 };
