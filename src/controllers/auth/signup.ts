@@ -1,8 +1,8 @@
 import { Request, Response, RequestHandler } from 'express';
-import User from '../models/user.model';
+import User from '../../models/user.model';
 import bcrypt from 'bcrypt';
 import { z } from 'zod';
-import { generateToken } from '../service/auth.service';
+import { generateToken } from '../../service/auth.service';
 
 const signupSchema = z.object({
   username: z.string().min(3, 'Username must be at least 3 characters'),

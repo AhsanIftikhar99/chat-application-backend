@@ -63,7 +63,6 @@ User.init(
     modelName: 'User',
     timestamps: true,
     freezeTableName: true,
-
     // define the table's name
     tableName: 'User',
 
