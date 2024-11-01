@@ -27,8 +27,13 @@ export const login: RequestHandler = async (req: Request, res: Response): Promis
     }
     console.log('password valid', isPasswordValid);
     const token = generateToken(user.id, user.email);
-    res.cookie('jwt', token, { httpOnly: true, secure: process.env.NODE_ENV === 'production' });
-
+    // Set the token in a cookie
+    res.cookie('jwt', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
+      sameSite: 'strict', // Adjust sameSite attribute as needed
+    });
+    
     res.status(200).json({ message: 'Logged in successfully' });
   } catch (error) {
     if (error instanceof z.ZodError) {
