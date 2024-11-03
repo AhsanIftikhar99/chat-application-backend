@@ -1,5 +1,6 @@
-// FILE: global.d.ts
-import { UserAttributes } from './models/user.model'; // Adjust the import path as needed
+// global.d.ts
+
+import { UserAttributes } from './src/models/user.model'; // Adjust the path as needed
 
 declare global {
   namespace Express {
@@ -8,3 +9,5 @@ declare global {
     }
   }
 }
+
+export {}; // This line is necessary to make this file a module
