@@ -1,19 +1,7 @@
 import { DataTypes, Model, Optional } from 'sequelize';
 import sequelize from '../config/db.config';
+import { MessageAttributes } from '../types';
 
-interface MessageAttributes {
-  id: string;
-  chatId: string;
-  senderId: string;
-  messageType: 'text' | 'voice' | 'media';
-  content?: string;
-  mediaUrl?: string;
-  timestamp?: Date;
-  encrypted: boolean;
-  seenBy?: string[];
-  createdAt?: Date;
-  updatedAt?: Date;
-}
 
 type MessageCreationAttributes = Optional<MessageAttributes, 'id' | 'timestamp' | 'encrypted' | 'seenBy' | 'createdAt' | 'updatedAt'>;
 

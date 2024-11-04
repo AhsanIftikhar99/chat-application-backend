@@ -1,14 +1,11 @@
 // controllers/auth/login.ts
-import { Request, Response, RequestHandler } from 'express';
 import bcrypt from 'bcrypt';
-import User from '../../models/user.model';
+import { Request, RequestHandler, Response } from 'express';
 import { z } from 'zod';
+import User from '../../models/user.model';
 import { generateToken } from '../../service/auth.service';
+import { loginSchema } from '../../validations';
 
-const loginSchema = z.object({
-  email: z.string().email('Invalid email format'),
-  password: z.string().min(6, 'Password must be at least 6 characters'),
-});
 
 export const login: RequestHandler = async (req: Request, res: Response): Promise<void> => {
   try {
@@ -33,8 +30,18 @@ export const login: RequestHandler = async (req: Request, res: Response): Promis
       secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
       sameSite: 'strict', // Adjust sameSite attribute as needed
     });
-    
-    res.status(200).json({ message: 'Logged in successfully' });
+
+    res.status(200).json({
+      message: 'Logged in successfully',
+      user: {
+        id: user.id,
+        username: user.username,
+        displayName: user.displayName,
+        email: user.email,
+        profilePicture: user.profilePicture,
+        status: user.status,
+      },
+    });
   } catch (error) {
     if (error instanceof z.ZodError) {
       res.status(400).json({ message: error.errors });

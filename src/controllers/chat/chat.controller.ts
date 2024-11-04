@@ -34,6 +34,7 @@ export const getOrCreateChat = async (req: Request, res: Response): Promise<void
 
     res.status(200).json({ chatId: chat.id });
   } catch (error) {
+    console.log('Error fetching or creating chat', error);
     res.status(500).json({ message: 'Error fetching or creating chat', error });
   }
 };

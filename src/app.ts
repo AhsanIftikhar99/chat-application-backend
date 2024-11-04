@@ -1,10 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import authRoutes from './routes/auth.route';
-import userRoutes from './routes/user.route';
-import chatRoutes from './routes/chat.route';
-import messageRoutes from './routes/message.route';
-
+import routes from './routes';
 var cookieParser = require('cookie-parser')
 
 
@@ -21,9 +17,6 @@ app.use(cors(corsOptions));
 
 app.use(express.json());
 app.use(cookieParser()); 
-app.use('/api/auth', authRoutes);
-app.use('/api', userRoutes)
-app.use('/api', chatRoutes)
-app.use('/api', messageRoutes)
+app.use('/api', routes);
 
 export default app;

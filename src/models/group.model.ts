@@ -3,14 +3,9 @@ import { DataTypes, Model, Optional } from 'sequelize';
 import sequelize from '../config/db.config';
 import Chat from './chat.model'
 import User from './user.model';
+import { GroupAttributes } from '../types';
 
-type GroupAttributes = {
-  id: string;
-  chatId: string;
-  adminIds: string[];
-  createdAt?: Date;
-  updatedAt?: Date;
-};
+
 
 type GroupCreationAttributes = Optional<GroupAttributes, 'id' | 'createdAt' | 'updatedAt'>;
 

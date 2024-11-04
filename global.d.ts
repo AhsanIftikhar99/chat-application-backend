@@ -1,5 +1,4 @@
 // global.d.ts
-
 import { UserAttributes } from './src/models/user.model'; // Adjust the path as needed
 
 declare global {
@@ -10,4 +9,4 @@ declare global {
   }
 }
 
-export {}; // This line is necessary to make this file a module
+export {}; // Ensure the file is treated as a module

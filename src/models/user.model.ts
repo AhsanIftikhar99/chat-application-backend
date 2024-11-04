@@ -1,20 +1,7 @@
 import { DataTypes, Model, Optional } from 'sequelize';
 import sequelize from '../config/db.config';
+import { UserAttributes } from '../types';
 
-// Define the attributes of the User model
-interface UserAttributes {
-  id: string;
-  username: string;
-  displayName?: string;
-  email: string;
-  password: string;
-  profilePicture?: string;
-  status?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
-}
-
-// Define the creation attributes for the User model
 interface UserCreationAttributes extends Optional<UserAttributes, 'id' | 'displayName' | 'profilePicture' | 'status' | 'createdAt' | 'updatedAt'> { }
 
 // Extend the Model class with the attributes
@@ -68,5 +55,6 @@ User.init(
 
   }
 );
+
 
 export default User;

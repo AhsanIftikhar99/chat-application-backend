@@ -10,5 +10,8 @@
     "typeRoots": ["./node_modules/@types", "./"],
     "types": ["node", "express"]
   },
-  "include": ["global.d.ts", "src/**/*.ts"]
+  "include": [
+    "global.d.ts", // Add this line if not present
+    "src/**/*"
+  ]
 }
