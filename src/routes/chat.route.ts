@@ -1,12 +1,30 @@
 // routes/chat.routes.ts
+
 import { Router, Request, Response } from 'express';
-import { getOrCreateChat } from '../controllers/chat/chat.controller';
 import MessageController from '../controllers/message/message.controller';
+import ChatController from '../controllers/chat/chat.controller';
 
 const chatRouter = Router();
 
 // Chat routes
-chatRouter.get('/:userId', getOrCreateChat);
+chatRouter.get('/:userId', async (req: Request, res: Response) => {
+  try {
+    const chat : any= await ChatController.getOrCreateChat(req, res);
+    const chatId = chat?.id;
+    res.status(200).json(chatId);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching or creating chat', error });
+  }
+});
+
+chatRouter.get('/getUserAndChat/:userId', async (req: Request, res: Response) => {
+  try {
+    const data= await ChatController.getUserAndChatData(req, res);
+    res.status(200).json(data);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching or creating chat', error });
+  }
+});
 
 chatRouter.post('/:chatId/messages', async (req: Request, res: Response) => {
   try {

@@ -3,8 +3,7 @@ import { Request, Response, NextFunction } from 'express';
 import { verifyToken } from '../service/auth.service';
 
 export const authenticateJWT = (req: Request, res: Response, next: NextFunction): void => {
-  console.log('Cookies:', req.cookies, req.rawHeaders);
-
+  console.log('Cookies: ', req.rawHeaders);
   const token = req.cookies.jwt;
 
   if (token) {
