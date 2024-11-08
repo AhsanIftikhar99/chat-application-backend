@@ -88,7 +88,7 @@ class ChatController {
       console.error('Error fetching user or chat data:', error);
       res.status(500).json({ message: 'Error fetching user or chat data', error });
     }
-  }
+  } 
 }
 
 export default new ChatController();

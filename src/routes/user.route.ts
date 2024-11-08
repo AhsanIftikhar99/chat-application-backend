@@ -23,4 +23,23 @@ userRouter.get('/getUserById/:id', async (req: Request, res: Response) => {
   }
 });
 
+userRouter.get('/getLoggedInUser', async (req: Request, res: Response) => {
+  try {
+    const user = await UserController.getLoggedInUser(req);
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ message: 'Error retrieving user', error });
+  }
+});
+
+userRouter.post("/updateUserDetails", async (req: Request, res: Response) => {
+  try {
+    const user = await UserController.updateUserDetails(req);
+    res.statusMessage = "User details updated successfully";
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ message: 'Error updating user', error });
+  }
+});
+
 export default userRouter;

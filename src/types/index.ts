@@ -8,6 +8,7 @@ export type UserAttributes = {
   status?: string;
   createdAt?: Date;
   updatedAt?: Date;
+  phoneNumber?: string;
 }
 
 export type ChatAttributes = {

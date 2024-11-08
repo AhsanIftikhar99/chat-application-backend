@@ -2,7 +2,7 @@ import { DataTypes, Model, Optional } from 'sequelize';
 import sequelize from '../config/db.config';
 import { UserAttributes } from '../types';
 
-interface UserCreationAttributes extends Optional<UserAttributes, 'id' | 'displayName' | 'profilePicture' | 'status' | 'createdAt' | 'updatedAt'> { }
+interface UserCreationAttributes extends Optional<UserAttributes, 'id' | 'displayName' | 'profilePicture' | 'status' | 'createdAt' | 'updatedAt'| 'phoneNumber'> { }
 
 // Extend the Model class with the attributes
 class User extends Model<UserAttributes, UserCreationAttributes> implements UserAttributes {
@@ -13,6 +13,7 @@ class User extends Model<UserAttributes, UserCreationAttributes> implements User
   public password!: string;
   public profilePicture?: string;
   public status?: string;
+  public phoneNumber?: string;
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 }
@@ -39,6 +40,10 @@ User.init(
     password: {
       type: DataTypes.STRING,
       allowNull: false,
+    },
+    phoneNumber:{
+      type: DataTypes.STRING,
+      unique: true,
     },
     profilePicture: DataTypes.STRING,
     status: DataTypes.STRING,

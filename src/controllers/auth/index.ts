@@ -1,9 +1,10 @@
-// controllers/auth/auth.ts
 import bcrypt from 'bcrypt';
 
 import User from '../../models/user.model';
 import { generateToken } from '../../service/auth.service';
 import { loginSchema, signupSchema } from '../../validations';
+import { sendConfirmationEmail } from '../../utils/helpers/mail';
+
 
 class Auth {
   // Sign up method
@@ -23,7 +24,12 @@ class Auth {
       password: hashedPassword,
     });
 
+    // Generate a token for the user
     const token = generateToken(user.id, user.email);
+
+    // Call the function to send the confirmation email
+    await sendConfirmationEmail(email, displayName as string);
+
     return { user, token };
   }
 
