@@ -1,10 +1,23 @@
 // src/socketEvents.js (or similar file for event handlers)
 
-import { Server } from 'socket.io';
+import { Server, Socket } from 'socket.io';
 import Message from '../models/message.model';
 
-export const socketEventHandlers: { [key: string]: (data: any, io: Server, socket: any) => Promise<void> } = {
-  sendMessage: async (messageData, io, socket) => {
+export type MessageData = {
+  chatId: string;
+  senderId: string;
+  content: string;
+  messageType: 'text' | 'voice' | 'media';
+  timestamp?: Date;
+  encrypted?: boolean;
+};
+
+export type SocketEventHandlers = {
+  [key: string]: (data: MessageData, io: Server, socket: Socket) => Promise<void>;
+};
+
+
+export const socketEventHandlers: SocketEventHandlers = {  sendMessage: async (messageData: MessageData, io: Server, socket: Socket) => {
     try {
       console.log('Received message data:', messageData); // Add logging
       const message = await Message.create({

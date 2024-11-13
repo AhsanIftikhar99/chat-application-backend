@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt';
-
+import { Response } from 'express';
 import User from '../../models/user.model';
 import { generateToken } from '../../service/auth.service';
 import { loginSchema, signupSchema } from '../../validations';
@@ -49,6 +49,17 @@ class Auth {
 
     const token = generateToken(user.id, user.email);
     return { user, token };
+  }
+
+  async logout(response: Response) {
+    // Clear the JWT token from the cookie
+    response.clearCookie('jwt', {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+    });
+
+    return { message: 'Logged out successfully' };
   }
 }
 

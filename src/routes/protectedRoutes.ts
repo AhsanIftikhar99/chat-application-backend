@@ -1,7 +1,7 @@
 // routes/protectedRouter.ts
 import { Router } from 'express';
-import chatRouter from './chat.route';
-import userRouter from './user.route';
+import chatRouter from './chatRoutes';
+import userRouter from './userRoutes';
 
 const protectedRouter = Router();
 
