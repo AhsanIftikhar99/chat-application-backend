@@ -39,6 +39,7 @@ publicRouter.post('/login', async (req: Request, res: Response) => {
       user: user,
     });
   } catch (error: unknown) {
+    console.log("login error", error);
     if (error instanceof ZodError) {
       res.status(400).json({ message: error.errors });
     } else if (error instanceof Error && error.message === 'Invalid email or password') {
