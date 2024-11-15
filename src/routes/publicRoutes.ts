@@ -51,13 +51,6 @@ publicRouter.post('/login', async (req: Request, res: Response) => {
   }
 });
 
-publicRouter.post('/logout', async (req, res) => {
-  try {
-    const response = await Auth.logout(res);
-    res.status(200).json(response);
-  } catch (error) {
-    res.status(500).json({ error: 'Failed to log out' });
-  }
-});
+
 
 export default publicRouter;

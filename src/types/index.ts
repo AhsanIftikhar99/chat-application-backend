@@ -9,6 +9,7 @@ export type UserAttributes = {
   createdAt?: Date;
   updatedAt?: Date;
   phoneNumber?: string;
+  online?: boolean;
 }
 
 export type ChatAttributes = {

@@ -1,6 +1,6 @@
 import User from '../../models/user.model';
 
-export const userAttributes = ['id', 'username', 'email', 'displayName', 'status', 'profilePicture'] as const;
+export const userAttributes = ['id', 'username', 'email', 'displayName', 'status', 'profilePicture', 'online'] as const;
 
 export class UserManager {
   public static async findUserById(id: string) {

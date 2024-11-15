@@ -14,6 +14,7 @@ class User extends Model<UserAttributes, UserCreationAttributes> implements User
   public profilePicture?: string;
   public status?: string;
   public phoneNumber?: string;
+  public online?: boolean;
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 }
@@ -49,6 +50,7 @@ User.init(
       type: DataTypes.BLOB, // Store binary data
       allowNull: true,
     },
+    online: DataTypes.BOOLEAN,
     status: DataTypes.STRING,
     createdAt: DataTypes.DATE,
     updatedAt: DataTypes.DATE,

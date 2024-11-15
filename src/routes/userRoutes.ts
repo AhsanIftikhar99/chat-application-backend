@@ -1,6 +1,7 @@
 import { Router, Request, Response } from 'express';
 import multer from 'multer';
 import UserController from '../controllers/user/user.controller';
+import Auth from '../controllers/auth';
 
 const userRouter = Router();
 const upload = multer({ storage: multer.memoryStorage() }); // Store files in memory as a buffer
@@ -73,6 +74,16 @@ userRouter.get('/getUsersWithChat', async (req: Request, res: Response) => {
   } catch (error) {
     const errorMessage = (error as Error).message;
     res.status(500).json({ message: 'Error fetching contacts', error: errorMessage });
+  }
+});
+
+userRouter.post('/logout', async (req, res) => {
+  const { user_id } = (req as any).user;
+  try {
+    const response = await Auth.logout(res, user_id);
+    res.status(200).json(response);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to log out' });
   }
 });
 

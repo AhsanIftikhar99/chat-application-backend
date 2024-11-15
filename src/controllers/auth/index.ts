@@ -47,11 +47,20 @@ class Auth {
       throw new Error('Invalid email or password');
     }
 
+    await user.update({ online: true });
+
     const token = generateToken(user.id, user.email);
     return { user, token };
   }
 
-  async logout(response: Response) {
+  async logout(response: Response, userId: string) {
+    const user = await User.findByPk(userId);
+    console.log('user', user);
+    if (user) {
+      const logout=await user.update({ online: false });
+      console.log('logout', logout);
+    }
+
     // Clear the JWT token from the cookie
     response.clearCookie('jwt', {
       httpOnly: true,
