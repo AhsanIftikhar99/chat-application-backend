@@ -55,7 +55,7 @@ class UserController {
   public async getUsersChat(user_id: string) {
     try {
       const query = `
-        SELECT DISTINCT u.id as userId, u.username, u."displayName", c.id as chatId
+        SELECT DISTINCT u.id as userId, u.username, u."displayName", u."online", c.id as chatId
         FROM public."User" u
         JOIN public."Chat" c ON u.id = ANY(c.members)
         WHERE :user_id = ANY(c.members) AND u.id != :user_id;
