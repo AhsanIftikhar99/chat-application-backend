@@ -13,12 +13,16 @@ export const initializeSocket = (httpServer: http.Server) => {
   });
 
   io.on('connection', (socket) => {
-    console.log('User connected:', socket.id);
 
     // Expecting the client to emit a "joinRoom" event to join a specific room for the chat
     socket.on("joinRoom", (chatId) => {
       console.log(`User ${socket.id} joined room ${chatId}`);
       socket.join(chatId);
+    });
+
+    socket.on("leaveRoom", (chatId) => {
+      console.log(`User ${socket.id} left room ${chatId}`);
+      socket.leave(chatId);
     });
 
     // Set up other event listeners for specific events (e.g., sendMessage)
